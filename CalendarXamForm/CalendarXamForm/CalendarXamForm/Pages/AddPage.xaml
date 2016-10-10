@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CalendarXamForm.Pages.AddPage" BackgroundColor="Transparent">
+
+  
+            <Grid HorizontalOptions="Fill" VerticalOptions="Fill" Padding="10" BackgroundColor="White">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              
+              <Label Grid.Row="0" Grid.ColumnSpan="2" Text = "Add Task" TextColor="#505050" FontAttributes ="Bold"  FontSize ="25" VerticalOptions ="Start" HorizontalOptions="Center" />
+
+              <StackLayout Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Spacing="20" Padding="5" HorizontalOptions="Center">
+                <Label Text = "Time Start" TextColor="#505050" FontAttributes ="Bold"  FontSize ="15" VerticalOptions ="Center" />
+                <TimePicker />
+              </StackLayout>
+                
+              <StackLayout  Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Spacing="20" Padding="5" HorizontalOptions="Center">
+                <Label Text = "Time End" TextColor="#505050" FontAttributes ="Bold"  FontSize ="15" VerticalOptions ="Center" />
+                <TimePicker />
+              </StackLayout>
+              
+              
+              <StackLayout Grid.Row="2" Grid.ColumnSpan="2" Orientation="Vertical" Padding="5" Spacing="15">
+                <Label Text = "Text" TextColor="#505050" FontAttributes ="Bold"  FontSize ="25" VerticalOptions ="Center" />
+                <Editor Text="" BackgroundColor ="#f1feff" TextColor ="Black" 
+                          FontSize = "15" HeightRequest ="300" HorizontalOptions="FillAndExpand"/>
+              </StackLayout>
+              
+              <!--error message-->
+              <StackLayout Grid.Row="3" Grid.ColumnSpan="2" Orientation="Vertical" Padding="10" HorizontalOptions="CenterAndExpand" VerticalOptions="EndAndExpand">
+                <Label x:Name="LabelError" Text="" TextColor ="Red" FontSize ="{Binding FontLarge}" FontAttributes ="Bold" HorizontalOptions ="CenterAndExpand"/>
+                
+                <Button Text = "Save" Command="{Binding SaveComment}" TextColor="#717171" 
+                        FontSize="15" FontAttributes="Bold" BackgroundColor="#f1feff" 
+                        VerticalOptions="Center" HorizontalOptions="Center" />
+              </StackLayout>
+
+            </Grid>
+          
+  
+</ContentPage>

@@ -1,0 +1,451 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:utilities="clr-namespace:CalendarXamForm.Utilities;assembly=CalendarXamForm"
+             x:Class="CalendarXamForm.Pages.Page1" BackgroundColor="White"
+             IsBusy="{Binding IsBusy}"
+             >
+  <Grid HorizontalOptions="Fill" VerticalOptions="Fill" Padding="5" BackgroundColor="White">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    
+    
+    <!--Page - Calendar-->
+    <Grid x:Name="CalendarGrid" Grid.Row="0" HorizontalOptions="Fill" VerticalOptions="Fill" Padding="5" BackgroundColor="White"
+          IsVisible="{Binding IsCalendar}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+
+      <Grid Grid.Row="0" Padding="10"
+        HorizontalOptions="Fill" VerticalOptions="Fill" BackgroundColor="White">
+
+        <Label Text="{Binding CalendarVm.CurentMonthName}" FontSize="{Binding LargeFont}" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center" />
+        
+        <Button Text="назад" FontSize="{Binding MediumFont}" BackgroundColor="#EDEDED" TextColor="Black" HorizontalOptions="Start" Command="{Binding CalendarVm.TapBack}" />
+        <Button Text="вперед" FontSize="{Binding MediumFont}" BackgroundColor="#EDEDED" TextColor="Black" HorizontalOptions="End" Command="{Binding CalendarVm.TapForward}" />
+      </Grid>
+
+      <Grid Grid.Row="1" x:Name="TitleGrid"
+        HorizontalOptions="Fill" VerticalOptions="Fill" BackgroundColor="White">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Column="0" Text="Mon" FontSize="{Binding SmallFont}" TextColor="Black" HorizontalOptions="Center" />
+        <Label Grid.Column="1" Text="Tue" FontSize="{Binding SmallFont}" TextColor="Black" HorizontalOptions="Center" />
+        <Label Grid.Column="2" Text="Wed" FontSize="{Binding SmallFont}" TextColor="Black" HorizontalOptions="Center" />
+        <Label Grid.Column="3" Text="Thu" FontSize="{Binding SmallFont}" TextColor="Black" HorizontalOptions="Center" />
+        <Label Grid.Column="4" Text="Fri" FontSize="{Binding SmallFont}" TextColor="Black" HorizontalOptions="Center" />
+        <Label Grid.Column="5" Text="Sat" FontSize="{Binding SmallFont}" TextColor="Black" HorizontalOptions="Center" />
+        <Label Grid.Column="6" Text="Sun" FontSize="{Binding SmallFont}" TextColor="Black" HorizontalOptions="Center" />
+
+        <BoxView Grid.ColumnSpan="7" BackgroundColor="#E3E3E3" HeightRequest="1" HorizontalOptions="Fill" VerticalOptions="End" />
+      </Grid>
+
+      <Grid Grid.Row="2" x:Name="MainGrid"
+        HorizontalOptions="Fill" VerticalOptions="Fill" BackgroundColor="#E0E0E0"
+            RowSpacing="5" ColumnSpacing="5" >
+        <!--IsVisible="{Binding IsBusy, Converter={StaticResource BoolenRevertConverter}}">-->
+        <Grid.RowDefinitions>
+          <RowDefinition Height="*" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+      </Grid>
+      <StackLayout x:Name="Load" Grid.Row="2" HorizontalOptions="Center" VerticalOptions="Center"
+                   IsVisible="{Binding CalendarVm.IsBusy}">
+        <ActivityIndicator IsRunning="True" />
+      </StackLayout>
+    </Grid>
+
+    
+    
+    <!--<Grid Grid.Row="1" BackgroundColor="White">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Button Grid.ColumnSpan="3" Text="Add Task" TextColor="Black" BackgroundColor="#EDEDED" HorizontalOptions="Fill" VerticalOptions="Fill" Clicked="Button_OnClicked"/>
+      <Button Grid.Column="1" Text="Edit" TextColor="Black" BackgroundColor="#EDEDED" HorizontalOptions="Fill" VerticalOptions="Fill" IsVisible="False" />
+      <Button Grid.Column="2" Text="Delete" TextColor="Black" BackgroundColor="#EDEDED" HorizontalOptions="Fill" VerticalOptions="Fill" IsVisible="False" />
+    </Grid>-->
+    
+    
+    
+    
+    
+    <!--Page - Tasks for Day-->
+    <ScrollView Grid.Row="1" BackgroundColor="White" HorizontalOptions="Fill" VerticalOptions="Fill" Padding="5">
+      <Grid x:Name="Schedule" BackgroundColor="White" HorizontalOptions="Fill" VerticalOptions="Fill" RowSpacing="0">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="{Binding ScheduleVm.RowHeight}" />
+          <RowDefinition Height="{Binding ScheduleVm.RowHeight}" />
+          <RowDefinition Height="{Binding ScheduleVm.RowHeight}" />
+          <RowDefinition Height="{Binding ScheduleVm.RowHeight}" />
+          <RowDefinition Height="{Binding ScheduleVm.RowHeight}" />
+          <RowDefinition Height="{Binding ScheduleVm.RowHeight}" />
+          <RowDefinition Height="{Binding ScheduleVm.RowHeight}" />
+          <RowDefinition Height="{Binding ScheduleVm.RowHeight}" />
+          <RowDefinition Height="{Binding ScheduleVm.RowHeight}" />
+          <RowDefinition Height="{Binding ScheduleVm.RowHeight}" />
+          <RowDefinition Height="{Binding ScheduleVm.RowHeight}" />
+          <RowDefinition Height="{Binding ScheduleVm.RowHeight}" />
+          <RowDefinition Height="{Binding ScheduleVm.RowHeight}" />
+          <RowDefinition Height="{Binding ScheduleVm.RowHeight}" />
+          <RowDefinition Height="{Binding ScheduleVm.RowHeight}" />
+          <RowDefinition Height="{Binding ScheduleVm.RowHeight}" />
+          <RowDefinition Height="{Binding ScheduleVm.RowHeight}" />
+          <RowDefinition Height="{Binding ScheduleVm.RowHeight}" />
+          <RowDefinition Height="{Binding ScheduleVm.RowHeight}" />
+          <RowDefinition Height="{Binding ScheduleVm.RowHeight}" />
+          <RowDefinition Height="{Binding ScheduleVm.RowHeight}" />
+          <RowDefinition Height="{Binding ScheduleVm.RowHeight}" />
+          <RowDefinition Height="{Binding ScheduleVm.RowHeight}" />
+          <RowDefinition Height="{Binding ScheduleVm.RowHeight}" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        
+        <!--<Label Grid.Column="0" Grid.Row="0" Text="00:00" TextColor="Black" FontSize="{Binding SmallFont}" VerticalOptions="Center" />
+        <BoxView Grid.Column="1" Grid.Row="0" HorizontalOptions="Fill" VerticalOptions="Fill">
+          <BoxView.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenAddPage}" CommandParameter="0" NumberOfTapsRequired="2" />
+          </BoxView.GestureRecognizers>
+        </BoxView>
+        <BoxView Grid.Column="1" Grid.Row="0" HeightRequest="2" BackgroundColor="#E3E3E3" HorizontalOptions="Fill" VerticalOptions="End" />
+
+        <Label Grid.Column="0" Grid.Row="1" Text="01:00" TextColor="Black" FontSize="{Binding SmallFont}" VerticalOptions="Center" />
+        <BoxView Grid.Column="1" Grid.Row="1" HorizontalOptions="Fill" VerticalOptions="Fill">
+          <BoxView.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenAddPage}" CommandParameter="1" NumberOfTapsRequired="2" />
+          </BoxView.GestureRecognizers>
+        </BoxView>
+        <BoxView Grid.Column="1" Grid.Row="1" HeightRequest="2" BackgroundColor="#E3E3E3" HorizontalOptions="Fill" VerticalOptions="End"/>
+        
+        <Label Grid.Column="0" Grid.Row="2" Text="02:00" TextColor="Black" FontSize="{Binding SmallFont}" VerticalOptions="Center" />
+        <BoxView Grid.Column="1" Grid.Row="2" HorizontalOptions="Fill" VerticalOptions="Fill">
+          <BoxView.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenAddPage}" CommandParameter="2" NumberOfTapsRequired="2" />
+          </BoxView.GestureRecognizers>
+        </BoxView>
+        <BoxView Grid.Column="1" Grid.Row="2" HeightRequest="2" BackgroundColor="#E3E3E3" HorizontalOptions="Fill" VerticalOptions="End" />
+
+        <Label Grid.Column="0" Grid.Row="3" Text="03:00" TextColor="Black" FontSize="{Binding SmallFont}" VerticalOptions="Center" />
+        <BoxView Grid.Column="1" Grid.Row="3" HorizontalOptions="Fill" VerticalOptions="Fill">
+          <BoxView.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenAddPage}" CommandParameter="3" NumberOfTapsRequired="2" />
+          </BoxView.GestureRecognizers>
+        </BoxView>
+        <BoxView Grid.Column="1" Grid.Row="3" HeightRequest="2" BackgroundColor="#E3E3E3" HorizontalOptions="Fill" VerticalOptions="End" />
+
+        <Label Grid.Column="0" Grid.Row="4" Text="04:00" TextColor="Black" FontSize="{Binding SmallFont}" VerticalOptions="Center" />
+        <BoxView Grid.Column="1" Grid.Row="4" HorizontalOptions="Fill" VerticalOptions="Fill">
+          <BoxView.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenAddPage}" CommandParameter="4" NumberOfTapsRequired="2" />
+          </BoxView.GestureRecognizers>
+        </BoxView>
+        <BoxView Grid.Column="1" Grid.Row="4" HeightRequest="2" BackgroundColor="#E3E3E3" HorizontalOptions="Fill" VerticalOptions="End" />
+
+        <Label Grid.Column="0" Grid.Row="5" Text="05:00" TextColor="Black" FontSize="{Binding SmallFont}" VerticalOptions="Center" />
+        <BoxView Grid.Column="1" Grid.Row="5" HorizontalOptions="Fill" VerticalOptions="Fill">
+          <BoxView.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenAddPage}" CommandParameter="5" NumberOfTapsRequired="2" />
+          </BoxView.GestureRecognizers>
+        </BoxView>
+        <BoxView Grid.Column="1" Grid.Row="5" HeightRequest="2" BackgroundColor="#E3E3E3" HorizontalOptions="Fill" VerticalOptions="End" />
+
+        <Label Grid.Column="0" Grid.Row="6" Text="06:00" TextColor="Black" FontSize="{Binding SmallFont}" VerticalOptions="Center" />
+        <BoxView Grid.Column="1" Grid.Row="6" HorizontalOptions="Fill" VerticalOptions="Fill">
+          <BoxView.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenAddPage}" CommandParameter="6" NumberOfTapsRequired="2" />
+          </BoxView.GestureRecognizers>
+        </BoxView>
+        <BoxView Grid.Column="1" Grid.Row="6" HeightRequest="2" BackgroundColor="#E3E3E3" HorizontalOptions="Fill" VerticalOptions="End" />
+
+        <Label Grid.Column="0" Grid.Row="7" Text="07:00" TextColor="Black" FontSize="{Binding SmallFont}" VerticalOptions="Center" />
+        <BoxView Grid.Column="1" Grid.Row="7" HorizontalOptions="Fill" VerticalOptions="Fill">
+          <BoxView.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenAddPage}" CommandParameter="7" NumberOfTapsRequired="2" />
+          </BoxView.GestureRecognizers>
+        </BoxView>
+        <BoxView Grid.Column="1" Grid.Row="7" HeightRequest="2" BackgroundColor="#E3E3E3" HorizontalOptions="Fill" VerticalOptions="End" />
+
+        <Label Grid.Column="0" Grid.Row="8" Text="08:00" TextColor="Black" FontSize="{Binding SmallFont}" VerticalOptions="Center" />
+        <BoxView Grid.Column="1" Grid.Row="8" HorizontalOptions="Fill" VerticalOptions="Fill">
+          <BoxView.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenAddPage}" CommandParameter="8" NumberOfTapsRequired="2" />
+          </BoxView.GestureRecognizers>
+        </BoxView>
+        <BoxView Grid.Column="1" Grid.Row="8" HeightRequest="2" BackgroundColor="#E3E3E3" HorizontalOptions="Fill" VerticalOptions="End" />
+
+        <Label Grid.Column="0" Grid.Row="9" Text="09:00" TextColor="Black" FontSize="{Binding SmallFont}" VerticalOptions="Center" />
+        <BoxView Grid.Column="1" Grid.Row="9" HorizontalOptions="Fill" VerticalOptions="Fill">
+          <BoxView.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenAddPage}" CommandParameter="9" NumberOfTapsRequired="2" />
+          </BoxView.GestureRecognizers>
+        </BoxView>
+        <BoxView Grid.Column="1" Grid.Row="9" HeightRequest="2" BackgroundColor="#E3E3E3" HorizontalOptions="Fill" VerticalOptions="End" />
+
+        <Label Grid.Column="0" Grid.Row="10" Text="10:00" TextColor="Black" FontSize="{Binding SmallFont}" VerticalOptions="Center" />
+        <BoxView Grid.Column="1" Grid.Row="10" HorizontalOptions="Fill" VerticalOptions="Fill">
+          <BoxView.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenAddPage}" CommandParameter="10" NumberOfTapsRequired="2" />
+          </BoxView.GestureRecognizers>
+        </BoxView>
+        <BoxView Grid.Column="1" Grid.Row="10" HeightRequest="2" BackgroundColor="#E3E3E3" HorizontalOptions="Fill" VerticalOptions="End" />
+
+        <Label Grid.Column="0" Grid.Row="11" Text="11:00" TextColor="Black" FontSize="{Binding SmallFont}" VerticalOptions="Center" />
+        <BoxView Grid.Column="1" Grid.Row="11" HorizontalOptions="Fill" VerticalOptions="Fill">
+          <BoxView.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenAddPage}" CommandParameter="11" NumberOfTapsRequired="2" />
+          </BoxView.GestureRecognizers>
+        </BoxView>
+        <BoxView Grid.Column="1" Grid.Row="11" HeightRequest="2" BackgroundColor="#E3E3E3" HorizontalOptions="Fill" VerticalOptions="End" />
+
+        <Label Grid.Column="0" Grid.Row="12" Text="12:00" TextColor="Black" FontSize="{Binding SmallFont}" VerticalOptions="Center" />
+        <BoxView Grid.Column="1" Grid.Row="12" HorizontalOptions="Fill" VerticalOptions="Fill">
+          <BoxView.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenAddPage}" CommandParameter="12" NumberOfTapsRequired="2" />
+          </BoxView.GestureRecognizers>
+        </BoxView>
+        <BoxView Grid.Column="1" Grid.Row="12" HeightRequest="2" BackgroundColor="#E3E3E3" HorizontalOptions="Fill" VerticalOptions="End" />
+
+        <Label Grid.Column="0" Grid.Row="13" Text="13:00" TextColor="Black" FontSize="{Binding SmallFont}" VerticalOptions="Center" />
+        <BoxView Grid.Column="1" Grid.Row="13" HorizontalOptions="Fill" VerticalOptions="Fill">
+          <BoxView.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenAddPage}" CommandParameter="13" NumberOfTapsRequired="2" />
+          </BoxView.GestureRecognizers>
+        </BoxView>
+        <BoxView Grid.Column="1" Grid.Row="13" HeightRequest="2" BackgroundColor="#E3E3E3" HorizontalOptions="Fill" VerticalOptions="End" />
+
+        <Label Grid.Column="0" Grid.Row="14" Text="14:00" TextColor="Black" FontSize="{Binding SmallFont}" VerticalOptions="Center" />
+        <BoxView Grid.Column="1" Grid.Row="14" HorizontalOptions="Fill" VerticalOptions="Fill">
+          <BoxView.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenAddPage}" CommandParameter="14" NumberOfTapsRequired="2" />
+          </BoxView.GestureRecognizers>
+        </BoxView>
+        <BoxView Grid.Column="1" Grid.Row="14" HeightRequest="2" BackgroundColor="#E3E3E3" HorizontalOptions="Fill" VerticalOptions="End" />
+
+        <Label Grid.Column="0" Grid.Row="15" Text="15:00" TextColor="Black" FontSize="{Binding SmallFont}" VerticalOptions="Center" />
+        <BoxView Grid.Column="1" Grid.Row="15" HorizontalOptions="Fill" VerticalOptions="Fill">
+          <BoxView.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenAddPage}" CommandParameter="15" NumberOfTapsRequired="2" />
+          </BoxView.GestureRecognizers>
+        </BoxView>
+        <BoxView Grid.Column="1" Grid.Row="15" HeightRequest="2" BackgroundColor="#E3E3E3" HorizontalOptions="Fill" VerticalOptions="End" />
+
+        <Label Grid.Column="0" Grid.Row="16" Text="16:00" TextColor="Black" FontSize="{Binding SmallFont}" VerticalOptions="Center" />
+        <BoxView Grid.Column="1" Grid.Row="16" HorizontalOptions="Fill" VerticalOptions="Fill">
+          <BoxView.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenAddPage}" CommandParameter="16" NumberOfTapsRequired="2" />
+          </BoxView.GestureRecognizers>
+        </BoxView>
+        <BoxView Grid.Column="1" Grid.Row="16" HeightRequest="2" BackgroundColor="#E3E3E3" HorizontalOptions="Fill" VerticalOptions="End" />
+
+        <Label Grid.Column="0" Grid.Row="17" Text="17:00" TextColor="Black" FontSize="{Binding SmallFont}" VerticalOptions="Center" />
+        <BoxView Grid.Column="1" Grid.Row="17" HorizontalOptions="Fill" VerticalOptions="Fill">
+          <BoxView.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenAddPage}" CommandParameter="17" NumberOfTapsRequired="2" />
+          </BoxView.GestureRecognizers>
+        </BoxView>
+        <BoxView Grid.Column="1" Grid.Row="17" HeightRequest="2" BackgroundColor="#E3E3E3" HorizontalOptions="Fill" VerticalOptions="End" />
+
+        <Label Grid.Column="0" Grid.Row="18" Text="18:00" TextColor="Black" FontSize="{Binding SmallFont}" VerticalOptions="Center" />
+        <BoxView Grid.Column="1" Grid.Row="18" HorizontalOptions="Fill" VerticalOptions="Fill">
+          <BoxView.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenAddPage}" CommandParameter="18" NumberOfTapsRequired="2" />
+          </BoxView.GestureRecognizers>
+        </BoxView>
+        <BoxView Grid.Column="1" Grid.Row="18" HeightRequest="2" BackgroundColor="#E3E3E3" HorizontalOptions="Fill" VerticalOptions="End" />
+
+        <Label Grid.Column="0" Grid.Row="19" Text="19:00" TextColor="Black" FontSize="{Binding SmallFont}" VerticalOptions="Center" />
+        <BoxView Grid.Column="1" Grid.Row="19" HorizontalOptions="Fill" VerticalOptions="Fill">
+          <BoxView.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenAddPage}" CommandParameter="19" NumberOfTapsRequired="2" />
+          </BoxView.GestureRecognizers>
+        </BoxView>
+        <BoxView Grid.Column="1" Grid.Row="19" HeightRequest="2" BackgroundColor="#E3E3E3" HorizontalOptions="Fill" VerticalOptions="End" />
+
+        <Label Grid.Column="0" Grid.Row="20" Text="20:00" TextColor="Black" FontSize="{Binding SmallFont}" VerticalOptions="Center" />
+        <BoxView Grid.Column="1" Grid.Row="20" HorizontalOptions="Fill" VerticalOptions="Fill">
+          <BoxView.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenAddPage}" CommandParameter="20" NumberOfTapsRequired="2" />
+          </BoxView.GestureRecognizers>
+        </BoxView>
+        <BoxView Grid.Column="1" Grid.Row="20" HeightRequest="2" BackgroundColor="#E3E3E3" HorizontalOptions="Fill" VerticalOptions="End" />
+
+        <Label Grid.Column="0" Grid.Row="21" Text="21:00" TextColor="Black" FontSize="{Binding SmallFont}" VerticalOptions="Center" />
+        <BoxView Grid.Column="1" Grid.Row="21" HorizontalOptions="Fill" VerticalOptions="Fill">
+          <BoxView.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenAddPage}" CommandParameter="21" NumberOfTapsRequired="2" />
+          </BoxView.GestureRecognizers>
+        </BoxView>
+        <BoxView Grid.Column="1" Grid.Row="21" HeightRequest="2" BackgroundColor="#E3E3E3" HorizontalOptions="Fill" VerticalOptions="End" />
+
+        <Label Grid.Column="0" Grid.Row="22" Text="22:00" TextColor="Black" FontSize="{Binding SmallFont}" VerticalOptions="Center" />
+        <BoxView Grid.Column="1" Grid.Row="22" HorizontalOptions="Fill" VerticalOptions="Fill">
+          <BoxView.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenAddPage}" CommandParameter="22" NumberOfTapsRequired="2" />
+          </BoxView.GestureRecognizers>
+        </BoxView>
+        <BoxView Grid.Column="1" Grid.Row="22" HeightRequest="2" BackgroundColor="#E3E3E3" HorizontalOptions="Fill" VerticalOptions="End" />
+
+        <Label Grid.Column="0" Grid.Row="23" Text="23:00" TextColor="Black" FontSize="{Binding SmallFont}" VerticalOptions="Center" />
+        <BoxView Grid.Column="1" Grid.Row="23" HorizontalOptions="Fill" VerticalOptions="Fill" BackgroundColor="#ECCEEC">
+          <BoxView.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OpenAddPage}" CommandParameter="23" NumberOfTapsRequired="2" />
+          </BoxView.GestureRecognizers>
+        </BoxView>
+        <BoxView Grid.Column="1" Grid.Row="23" HeightRequest="2" BackgroundColor="#E3E3E3" HorizontalOptions="Fill" VerticalOptions="End" />
+
+        <Grid.GestureRecognizers>
+          <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped" NumberOfTapsRequired="2"></TapGestureRecognizer>
+        </Grid.GestureRecognizers>
+        
+        <StackLayout Grid.Column="1" Grid.RowSpan="9" BackgroundColor="Transparent" Padding="20,0,20,5">
+          <Grid x:Name="SchelduleGrid" BackgroundColor="Transparent">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="{Binding RowHeight}" />
+              <RowDefinition Height="{Binding RowHeight}" />
+              <RowDefinition Height="{Binding RowHeight}" />
+              <RowDefinition Height="{Binding RowHeight}" />
+              <RowDefinition Height="{Binding RowHeight}" />
+              <RowDefinition Height="{Binding RowHeight}" />
+              <RowDefinition Height="{Binding RowHeight}" />
+              <RowDefinition Height="{Binding RowHeight}" />
+              <RowDefinition Height="{Binding RowHeight}" />
+              <RowDefinition Height="{Binding RowHeight}" />
+              <RowDefinition Height="{Binding RowHeight}" />
+              <RowDefinition Height="{Binding RowHeight}" />
+              <RowDefinition Height="{Binding RowHeight}" />
+              <RowDefinition Height="{Binding RowHeight}" />
+              <RowDefinition Height="{Binding RowHeight}" />
+              <RowDefinition Height="{Binding RowHeight}" />
+              <RowDefinition Height="{Binding RowHeight}" />
+              <RowDefinition Height="{Binding RowHeight}" />
+              <RowDefinition Height="{Binding RowHeight}" />
+              <RowDefinition Height="{Binding RowHeight}" />
+              <RowDefinition Height="{Binding RowHeight}" />
+              <RowDefinition Height="{Binding RowHeight}" />
+              <RowDefinition Height="{Binding RowHeight}" />
+              <RowDefinition Height="{Binding RowHeight}" />
+            </Grid.RowDefinitions>
+            
+            <Grid.GestureRecognizers>
+              <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTappedBox" NumberOfTapsRequired="2"></TapGestureRecognizer>
+            </Grid.GestureRecognizers>
+          </Grid>
+        </StackLayout>-->
+        
+        <!--<BoxView Grid.Column="1" Grid.Row="2" Grid.RowSpan="4" BackgroundColor="#A4FFA4" Opacity="0.5" />-->
+        <!--<Label Grid.Column="1" Grid.Row="2" Grid.RowSpan="4" Text="{Binding TextMessage}" TextColor="Black" FontSize="25" HorizontalOptions="Center" VerticalOptions="Center"  />-->
+        
+        
+        
+      </Grid>
+    </ScrollView>
+
+    <BoxView Grid.Row="1" HeightRequest="2" BackgroundColor="Gray" HorizontalOptions="Fill" VerticalOptions="Start" />
+    
+    
+    
+    <!--Page - Add new Task-->
+    <Grid x:Name="AddGrid" Grid.Row="0" HorizontalOptions="Fill" VerticalOptions="Fill" Padding="10" BackgroundColor="White" 
+          IsVisible="{Binding IsTaskEdit}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+
+      <StackLayout Grid.Row="0" Grid.ColumnSpan="2" Orientation="Vertical" HorizontalOptions="Fill">
+        <Label Text = "Task" TextColor="#505050"
+               FontAttributes ="Bold"  FontSize ="{Binding LargeFont}" VerticalOptions ="Start" HorizontalOptions="Center" />
+        <BoxView HeightRequest="2" BackgroundColor="Gray" HorizontalOptions="Fill" VerticalOptions="End" />    
+      </StackLayout>
+      
+        <Grid Grid.Row="1" Grid.Column="0">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Label Grid.Column="0" Text = "Time Start" TextColor="#505050" FontAttributes ="Bold"  
+                 FontSize ="{Binding MediumFont}" VerticalOptions ="Center" />
+          <TimePicker Grid.Column="1" Time="{Binding AddTaskVm.StartTime, Mode=TwoWay}" Format="HH:mm" VerticalOptions ="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+        </Grid>
+      
+        <Grid Grid.Row="1" Grid.Column="1">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Label Grid.Column="0" Text = "Time End" TextColor="#505050" FontAttributes ="Bold"
+                 FontSize ="{Binding MediumFont}" VerticalOptions ="Center" />
+          <TimePicker Grid.Column="1" Time="{Binding AddTaskVm.EndTime, Mode=TwoWay}" Format="HH:mm" VerticalOptions ="CenterAndExpand" HorizontalOptions="Center" />
+        </Grid>
+      
+      
+      <Label Grid.Row="2" Grid.ColumnSpan="2" Text = "Text" TextColor="#505050" FontAttributes ="Bold" 
+             FontSize ="{Binding MediumFont}" VerticalOptions ="Center" />
+      
+      <Editor Grid.Row="3" Grid.ColumnSpan="2" Text="" BackgroundColor ="#f1feff" TextColor ="Black"
+                  FontSize = "{Binding MediumFont}" VerticalOptions="Fill" HorizontalOptions="Fill"/>
+
+
+      <Grid Grid.Row="4" Grid.ColumnSpan="2" HorizontalOptions="Fill">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Button Grid.Column="0" Text = "Save" TextColor="White" FontAttributes ="Bold"
+                FontSize ="{Binding MediumFont}" BackgroundColor="#B1FFB1"
+                VerticalOptions ="Center" HorizontalOptions="Center" 
+                Command="{Binding }"/>
+        <Button Grid.Column="1" Text = "Cancel" TextColor="White" BackgroundColor="#B7B7B7"
+                FontAttributes ="Bold"  FontSize ="{Binding MediumFont}" 
+                VerticalOptions ="Center" HorizontalOptions="Center"
+                Command="{Binding AddTaskVm.CancelCommand}"/>
+      </Grid>
+    </Grid>
+    
+    
+  </Grid>
+</ContentPage>

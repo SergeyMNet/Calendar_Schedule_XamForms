@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:utilities="clr-namespace:CalendarXamForm.Utilities;assembly=CalendarXamForm"
+             x:Class="CalendarXamForm.Application">
+  <Application.Resources>
+
+    <!-- Application resource dictionary -->
+
+    <ResourceDictionary>
+      
+      <!--календарь клетки-->
+      <DataTemplate x:Key="ItemTemplate">
+        <StackLayout Grid.Column="{Binding IntCol}" Grid.Row="{Binding IntRow}"
+                     HorizontalOptions="Fill" VerticalOptions="Fill"
+                     Padding="2"
+            BackgroundColor="{Binding BackColor}">
+          <Grid >
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Text="{Binding Text}" TextColor="{Binding Color}" 
+                   FontSize="{Binding SmallFont}" FontAttributes="Bold"
+                   HorizontalOptions="End" VerticalOptions="Start" />
+          </Grid>
+          
+        <StackLayout.GestureRecognizers>
+              <TapGestureRecognizer Command="{Binding TapItem}" NumberOfTapsRequired="1" />
+            </StackLayout.GestureRecognizers>
+        </StackLayout>
+      </DataTemplate>
+      
+      <!--Задания строчки-->
+      <DataTemplate x:Key="ItemTaskTemplate">
+
+        <Grid Grid.ColumnSpan="2" Grid.Row="{Binding RowNumber}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Label Grid.Column="0" Grid.Row="0" Text="{Binding RowNumber, Converter={StaticResource RowNumberToTimeConverter}}" TextColor="Black" FontSize="{Binding SmallFont}" VerticalOptions="Center" />
+          <BoxView Grid.Column="1" Grid.Row="0" HorizontalOptions="Fill" VerticalOptions="Fill" BackgroundColor="White">
+            <BoxView.GestureRecognizers>
+              <TapGestureRecognizer Command="{Binding TapCommand}" CommandParameter="{Binding RowNumber}" NumberOfTapsRequired="2" />
+            </BoxView.GestureRecognizers>
+            </BoxView>
+          <BoxView Grid.Column="1" Grid.Row="0" HeightRequest="2" BackgroundColor="#E3E3E3" HorizontalOptions="Fill" VerticalOptions="End" />
+
+          <Grid.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding TapCommand}" CommandParameter="{Binding RowNumber}" NumberOfTapsRequired="2" />
+          </Grid.GestureRecognizers>
+        </Grid>
+        
+      </DataTemplate>
+
+      
+      
+      
+      <DataTemplate x:Key="ItemBoxTemplate">
+        <StackLayout Grid.Column="1" Padding="60,0,20,0" 
+                     Grid.Row="{Binding SelectedRow}" Grid.RowSpan="{Binding EndRow}"
+                     IsVisible="{Binding IsShowFrame}" BackgroundColor="Transparent">
+          <BoxView  VerticalOptions="FillAndExpand" IsVisible="{Binding IsShowFrame}"
+                   BackgroundColor="#A4FFA4" Opacity="0.5" />
+        </StackLayout>
+      </DataTemplate>
+
+      <DataTemplate x:Key="ItemTextTemplate">
+        <Label Grid.Row="{Binding RowStart}" Grid.RowSpan="{Binding RowEnd}" 
+               Text="{Binding Text}" TextColor="Black" FontSize="25" 
+               HorizontalOptions="Center" VerticalOptions="Center"  />
+      </DataTemplate>
+        
+    
+  
+      <utilities:BoolenRevertConverter x:Key="BoolenRevertConverter"/>
+      <utilities:RowNumberToTimeConverter x:Key="RowNumberToTimeConverter"/>
+      
+    </ResourceDictionary>
+  </Application.Resources>
+</Application>
