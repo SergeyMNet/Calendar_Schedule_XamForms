@@ -11,7 +11,8 @@ namespace CalendarXamForm.Services
     {
         private static List<TaskItem> _allTaskItems = new List<TaskItem>();
 
-        public static void InitialRepo()
+        
+        public static void PrepareFakeItems()
         {
             var r = new Random();
 
@@ -22,17 +23,32 @@ namespace CalendarXamForm.Services
                 t.Id = i;
                 t.Text = "Task " + i;
                 t.DateTimeRenge = new DateTimeRenge(new DateTime(2016, 09, i, 9, 0, 0), new DateTime(2016, 09, i, r.Next(10, 15), 0, 0));
-                
+
                 _allTaskItems.Add(t);
             }
         }
 
         public static List<TaskItem> GetTaskForCurentDate(DateTime targetDate)
         {
-            if(_allTaskItems.Count == 0)
-                InitialRepo();
+            var result = _allTaskItems.Where(t => t.DateTimeRenge.Start.Date == targetDate.Date).ToList();
+            return result;
+        }
 
-            return _allTaskItems.Where(t => t.DateTimeRenge.Start.Date == targetDate.Date).ToList();
+        public static bool InsertItem(TaskItem item)
+        {
+            if (!_allTaskItems.Any())
+            {
+                item.Id = 1;
+                _allTaskItems.Add(item);
+            }
+            else
+            {
+                var id = _allTaskItems.LastOrDefault().Id;
+                item.Id = id + 1;
+                _allTaskItems.Add(item);
+            }
+            
+            return true;
         }
 
     }

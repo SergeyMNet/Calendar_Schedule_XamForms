@@ -58,7 +58,7 @@
       
       
       <DataTemplate x:Key="ItemBoxTemplate">
-        <StackLayout Grid.Column="1" Padding="60,0,20,0" 
+        <StackLayout Grid.Column="1" Padding="60,0,20,0"
                      Grid.Row="{Binding SelectedRow}" Grid.RowSpan="{Binding EndRow}"
                      IsVisible="{Binding IsShowFrame}" BackgroundColor="Transparent">
           <BoxView  VerticalOptions="FillAndExpand" IsVisible="{Binding IsShowFrame}"
@@ -66,16 +66,28 @@
         </StackLayout>
       </DataTemplate>
 
-      <DataTemplate x:Key="ItemTextTemplate">
-        <Label Grid.Row="{Binding RowStart}" Grid.RowSpan="{Binding RowEnd}" 
-               Text="{Binding Text}" TextColor="Black" FontSize="25" 
+      <DataTemplate x:Key="ItemBoxTemplateV2">
+        <StackLayout Grid.Column="1" Padding="60,0,20,0"
+                     Grid.Row="{Binding RowStart}"
+                     Grid.RowSpan="{Binding RowEnd}"
+                     IsVisible="True" BackgroundColor="Transparent">
+          <BoxView  VerticalOptions="FillAndExpand" IsVisible="True"
+                   BackgroundColor="{Binding Color}" Opacity="0.5" />
+        </StackLayout>
+      </DataTemplate>
+      
+      <DataTemplate x:Key="ItemBoxText">
+        <Label Grid.Column="1" 
+               Grid.Row="{Binding RowStart}"
+               Grid.RowSpan="{Binding RowEnd}"
+               Text="{Binding Text}" TextColor="Black" FontSize="25"
+               IsVisible="True" BackgroundColor="Transparent"
                HorizontalOptions="Center" VerticalOptions="Center"  />
       </DataTemplate>
-        
-    
   
       <utilities:BoolenRevertConverter x:Key="BoolenRevertConverter"/>
       <utilities:RowNumberToTimeConverter x:Key="RowNumberToTimeConverter"/>
+      <utilities:RowNumberToTimeConverter x:Key="TimeToRowNumberConverter"/>
       
     </ResourceDictionary>
   </Application.Resources>

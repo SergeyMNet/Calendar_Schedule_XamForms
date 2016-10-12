@@ -5,6 +5,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CalendarXamForm.Model;
+using CalendarXamForm.Services;
 using CalendarXamForm.ViewModels.ItemsVM;
 
 namespace CalendarXamForm.ViewModels
@@ -30,12 +32,14 @@ namespace CalendarXamForm.ViewModels
             }
         }
 
+        public List<TaskItem> TaskItems { get; set; } = new List<TaskItem>();
 
         public bool IsShowFrame { get; set; }
         public int SelectedRow { get; set; }
         public int EndRow { get; set; }
         
-        public TimeSpan StartTime { get; set; }
+        public TimeSpan StartTime { get; set; } = new TimeSpan();
+        public DateTime CurentDateDay { get; set; } = DateTime.Now;
 
         public ScheduleVM()
         {
@@ -43,6 +47,7 @@ namespace CalendarXamForm.ViewModels
             SelectedRow = 0;
             EndRow = 1;
             StartTime = new TimeSpan();
+            TaskItems = FakeRepo.GetTaskForCurentDate(CurentDateDay);
         }
 
 
@@ -67,8 +72,10 @@ namespace CalendarXamForm.ViewModels
         {
             var calendar = sender as CalendarVM;
             Debug.WriteLine("-----sel date = " + calendar.SelDate);
-
-            // TODO изменился день - изменить расписание
+            CurentDateDay = calendar.SelDate;
+            
+            TaskItems = FakeRepo.GetTaskForCurentDate(CurentDateDay);
+            DoListItemsChanged();
         }
 
 
@@ -78,6 +85,15 @@ namespace CalendarXamForm.ViewModels
         private void DoTimeChanged()
         {
             EventHandler eh = TimeChanged;
+            if (eh != null)
+                eh(this, EventArgs.Empty);
+        }
+
+        // list changed
+        public event EventHandler ListItemsChanged;
+        private void DoListItemsChanged()
+        {
+            EventHandler eh = ListItemsChanged;
             if (eh != null)
                 eh(this, EventArgs.Empty);
         }
@@ -118,6 +134,13 @@ namespace CalendarXamForm.ViewModels
         {
             IsShowFrame = false;
             OnPropertyChanged("IsShowFrame");
+        }
+
+        public void RefreshItems(object sender, EventArgs e)
+        {
+            TaskItems.Clear();
+            TaskItems = FakeRepo.GetTaskForCurentDate(CurentDateDay);
+            DoListItemsChanged();
         }
     }
 }

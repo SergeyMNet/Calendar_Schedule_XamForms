@@ -27,6 +27,7 @@ namespace CalendarXamForm.Pages
             MainScreenVm.ScheduleVm.TimeChanged += MainScreenVm.CloseCalendar;
             MainScreenVm.ScheduleVm.TimeChanged += MainScreenVm.OpenAddPage;
             MainScreenVm.ScheduleVm.TimeChanged += MainScreenVm.AddTaskVm.StartTimeChange;
+            MainScreenVm.ScheduleVm.ListItemsChanged += UpdateListItemsForDay;
 
             MainScreenVm.AddTaskVm.TimeStartChanged += MainScreenVm.ScheduleVm.TimeStartChanged;
             MainScreenVm.AddTaskVm.TimeEndChanged += MainScreenVm.ScheduleVm.TimeEndChanged;
@@ -34,12 +35,17 @@ namespace CalendarXamForm.Pages
             MainScreenVm.AddTaskVm.CloseWindow += MainScreenVm.ScheduleVm.ClearFrame;
             MainScreenVm.AddTaskVm.CloseWindow += MainScreenVm.CloseAddPage;
             MainScreenVm.AddTaskVm.CloseWindow += MainScreenVm.OpenCalendar;
-
+            MainScreenVm.AddTaskVm.CloseWindow += MainScreenVm.ScheduleVm.RefreshItems;
+            MainScreenVm.AddTaskVm.CloseWindow += UpdateListItemsForDay;
+            
             PrepareGrid();
             PrepareTaskGrig();
-            
         }
-        
+
+        private void UpdateListItemsForDay(object sender, EventArgs e)
+        {
+            PrepareTaskGrig();
+        }
 
         private async void MonthStartChanging(object sender, EventArgs e)
         {
@@ -75,18 +81,23 @@ namespace CalendarXamForm.Pages
         /// <returns></returns>
         private async Task PrepareTaskGrig()
         {
+            //await Schedule.FadeTo(0, 100, Easing.Linear);
+            
             Schedule.Children.Clear();
 
             foreach (var scheduleItem in MainScreenVm.ScheduleVm.ScheduleRows)
             {
                 scheduleItem.RowSel += MainScreenVm.ScheduleVm.SelRow;
-                var mod = (DataTemplate)Xamarin.Forms.Application.Current.Resources["ItemTaskTemplate"];
+                var mod = (DataTemplate) Xamarin.Forms.Application.Current.Resources["ItemTaskTemplate"];
                 var content = mod.CreateContent() as Grid;
                 content.BindingContext = scheduleItem;
                 Schedule.Children.Add(content);
             }
-
+            
+            AddSelectFrameV2();
             AddSelectFrame();
+
+            //await Schedule.FadeTo(1, 100, Easing.Linear);
         }
 
 
@@ -97,7 +108,26 @@ namespace CalendarXamForm.Pages
             content.BindingContext = MainScreenVm.ScheduleVm;
             Schedule.Children.Add(content);
         }
-        
-        
+
+        private void AddSelectFrameV2()
+        {
+            foreach (var taskItem in MainScreenVm.ScheduleVm.TaskItems)
+            {
+                var mod = (DataTemplate)Xamarin.Forms.Application.Current.Resources["ItemBoxTemplateV2"];
+                var content = mod.CreateContent() as StackLayout;
+                content.BindingContext = taskItem;
+                Schedule.Children.Add(content);
+
+
+                var mod_text = (DataTemplate)Xamarin.Forms.Application.Current.Resources["ItemBoxText"];
+                var content_text = mod_text.CreateContent() as Label;
+                content_text.BindingContext = taskItem;
+                Schedule.Children.Add(content_text);
+            }
+
+            
+        }
+
+
     }
 }

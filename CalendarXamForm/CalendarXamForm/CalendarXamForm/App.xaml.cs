@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CalendarXamForm.Model;
 using CalendarXamForm.Pages;
+using CalendarXamForm.Services;
 using Xamarin.Forms;
 
 namespace CalendarXamForm
@@ -23,6 +25,16 @@ namespace CalendarXamForm
                 ScreenHeight = 800;
             }
 
+            FakeRepo.InsertItem(new TaskItem()
+            {
+                DateTimeRenge = new DateTimeRenge(DateTime.Now, DateTime.Now.Add(new TimeSpan(2, 0, 0))),
+                Text = "some text ..."
+            });
+            FakeRepo.InsertItem(new TaskItem()
+            {
+                DateTimeRenge = new DateTimeRenge(DateTime.Now.AddDays(1), DateTime.Now.AddDays(1).Add(new TimeSpan(2, 0, 0))),
+                Text = "some text ..."
+            });
 
             MainPage = new Page1();
         }

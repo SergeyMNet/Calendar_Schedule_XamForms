@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CalendarXamForm.Model;
+using CalendarXamForm.Services;
 using CalendarXamForm.ViewModels.ItemsVM;
 using Xamarin.Forms;
 
@@ -13,6 +15,7 @@ namespace CalendarXamForm.ViewModels
     {
         public ObservableCollection<TaskItemVM> TaskItems { get; set; } = new ObservableCollection<TaskItemVM>();
 
+        public DateTime CurentDateTime { get; set; } = DateTime.Now;
 
         private string _textMessage = "Work hours";
         public string TextMessage
@@ -70,6 +73,7 @@ namespace CalendarXamForm.ViewModels
             }
         }
 
+
         public Command SaveCommand { get; set; }
         public Command CancelCommand { get; set; }
 
@@ -82,6 +86,12 @@ namespace CalendarXamForm.ViewModels
 
         private void Save()
         {
+            var item = new TaskItem();
+            item.DateTimeRenge = new DateTimeRenge(CurentDateTime.Date.Add(StartTime), CurentDateTime.Date.Add(EndTime));
+            item.Text = TextMessage;
+            var result = FakeRepo.InsertItem(item);
+            Application.Current.MainPage.DisplayAlert("Result", result.ToString(), "OK");
+
             DoCloseWindow();
         }
 
@@ -95,6 +105,7 @@ namespace CalendarXamForm.ViewModels
         {
             var schedule = sender as ScheduleVM;
             StartTime = schedule.StartTime;
+            CurentDateTime = schedule.CurentDateDay;
         }
 
 

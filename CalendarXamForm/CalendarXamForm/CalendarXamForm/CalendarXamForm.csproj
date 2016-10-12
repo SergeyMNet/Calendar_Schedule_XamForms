@@ -58,6 +58,7 @@
     <Compile Include="Utilities\BoolenRevertConverter.cs" />
     <Compile Include="Utilities\ObjectToIndexConverter.cs" />
     <Compile Include="Utilities\RowNumberToTimeConverter.cs" />
+    <Compile Include="Utilities\TimeToRowNumberConverter.cs" />
     <Compile Include="ViewModels\AddTaskVM.cs" />
     <Compile Include="ViewModels\BaseVM.cs" />
     <Compile Include="ViewModels\CalendarVM.cs" />
